@@ -35,7 +35,8 @@ jobs:
           name: Fetch envoyproxy/envoy
           command: |
             git clone --depth 1 --branch master --single-branch https://github.com/envoyproxy/envoy /src/envoy/envoy
-            cat /src/envoy/bazel/bazel_toolchains.bzl >> /src/envoy/WORKSPACE
+            cat /src/envoy/bazel/bazel_toolchains.bzl >> /src/envoy/envoy/WORKSPACE
+            cat /src/envoy/envoy/WORKSPACE
       - run:
           name: Build envoy
           working_directory: /src/envoy/envoy
