@@ -34,15 +34,15 @@ jobs:
       - run:
           name: Fetch envoyproxy/envoy
           command: |
-            git clone --depth 1 --branch master --single-branch https://github.com/envoyproxy/envoy /src/envoy
+            git clone --depth 1 --branch master --single-branch https://github.com/envoyproxy/envoy /src/envoy/envoy
             cat /src/envoy/bazel/bazel_toolchains.bzl >> /src/envoy/WORKSPACE
       - run:
           name: Build envoy
-          working_directory: /src/envoy
+          working_directory: /src/envoy/envoy
           command: |
             bazel --bazelrc=/src/envoy/bazel/latest.bazelrc build //source/... --config=remote --auth_credentials /remotebuildexection.json --remote_instance_name=projects/$GCP_PROJECT/instances/default_instance --project_id=$GCP_PROJECT
       - store_artifacts:
-          path: /src/envoy/bazel-bin/source/
+          path: /src/envoy/envoy/bazel-bin/source/
 
   llvm:
     macos:
