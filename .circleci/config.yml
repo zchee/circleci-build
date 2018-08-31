@@ -40,7 +40,7 @@ jobs:
           name: Build envoy
           working_directory: /src/envoy/envoy
           command: |
-            bazel --bazelrc=/src/envoy/bazel/latest.bazelrc build //source/... --config=remote --auth_credentials /remotebuildexection.json --remote_instance_name=projects/$GCP_PROJECT/instances/default_instance --project_id=$GCP_PROJECT
+            bazel --bazelrc=/src/envoy/bazel/latest.bazelrc build //source/... --config=remote --auth_credentials /src/envoy/remotebuildexection.json --remote_instance_name=projects/$GCP_PROJECT/instances/default_instance --project_id=$GCP_PROJECT
       - store_artifacts:
           path: /src/envoy/envoy/bazel-bin/source/
 
