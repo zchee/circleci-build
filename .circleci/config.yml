@@ -230,6 +230,25 @@ jobs:
       - store_artifacts:
           path: ~/src/llvm/tarballs
 
+  debug:
+    docker:
+      - image: alpine:edge
+    working_directory: /src
+    steps:
+      - run:
+          name: env
+          command: |
+            env | sort
+      - run:
+          name: cat $CIRCLE_INTERNAL_CONFIG
+          command: |
+            apk --no-cache add \
+              ca-certificates \
+              jq
+            cat $CIRCLE_INTERNAL_CONFIG | jq . | tee /src/circle_internal_config.json
+      - store_artifacts:
+          path: /src
+
 workflows:
   version: 2
 
@@ -240,9 +259,18 @@ workflows:
           filters:
             branches:
               only: master
+
   build-llvm:
     jobs:
       - llvm:
+          context: org-global
+          filters:
+            branches:
+              only: master
+
+  debug-circleci:
+    jobs:
+      - debug:
           context: org-global
           filters:
             branches:
