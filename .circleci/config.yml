@@ -3,7 +3,7 @@ version: 2
 jobs:
   envoy:
     docker:
-      - image: gcr.io/cloud-builders/bazel:latest
+      - image: openjdk:8
     environment:
       GOOGLE_CLOUD_SDK_VERSION: 214.0.0  # https://cloud.google.com/sdk/docs/release-notes
       GCP_PROJECT: kouzoh-p-zchee
@@ -11,6 +11,13 @@ jobs:
     shell: /bin/bash -eux -o pipefail
     steps:
       - checkout
+      - run:
+          name: Install bazel
+          command: |
+            echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
+            curl https://bazel.build/bazel-release.pub.gpg | apt-key add -
+            apt-get update
+            apt-get install -y bazel
       - restore_cache:
           keys:
             - gcloud-214.0.0
